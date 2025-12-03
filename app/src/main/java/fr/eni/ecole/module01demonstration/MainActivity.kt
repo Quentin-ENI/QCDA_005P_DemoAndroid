@@ -5,19 +5,30 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,74 +44,41 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Module01DemonstrationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-
-                    Column {
-                        MyFirstComponent(
-                            modifier = Modifier.padding(innerPadding)
-                        )
-                        MySecondComponent(
-                            modifier = Modifier
-                        )
-                    }
-
-
-
-                }
+                ProfileScreen()
             }
         }
     }
 }
 
 @Composable
-fun MyFirstComponent(modifier: Modifier = Modifier) {
-    Row {
-        Box(
-            contentAlignment = Alignment.BottomEnd
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.chien),
-                contentDescription = "Image ancienne"
-            )
-            Icon(
-                imageVector = Icons.Default.Favorite,
-                contentDescription = "Icône favorite",
-                tint = Color.Red
-            )
-        }
-        Column {
-            Text(
-                text = "Alfred Sisley",
-                fontWeight = FontWeight.Bold,
-                modifier = modifier
-            )
-            Text(
-                text = "3 minutes ago",
-                color = Color.Gray
-            )
-        }
-    }
-}
-
-@Composable
-fun MySecondComponent(modifier: Modifier = Modifier) {
-    Row {
-        Icon(
-            imageVector = Icons.Filled.Email,
-            contentDescription = "Email"
+fun ProfileScreen() {
+    var firstName = ""
+    var lastName by remember { mutableStateOf("") }
+    var birthdate by rememberSaveable { mutableStateOf("") }
+    Column() {
+        TextField(
+            value = firstName,
+            onValueChange =  { firstName = it},
+            label = { Text(text = "Prénom") }
         )
-        Spacer(modifier = modifier.weight(1F))
-        Text(text = "john@doe.fr")
-        Spacer(modifier = modifier.weight(3F))
-        Text(text="A envoyer")
-
+        TextField(
+            value = lastName,
+            onValueChange = { lastName = it },
+            label = { Text(text = "Nom de famille") }
+        )
+        TextField(
+            value = birthdate,
+            onValueChange = { birthdate = it },
+            label = { Text(text = "Date de naissance") }
+        )
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     Module01DemonstrationTheme {
-        MySecondComponent()
+        ProfileScreen()
     }
 }
