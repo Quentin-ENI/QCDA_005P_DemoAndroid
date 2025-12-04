@@ -23,3 +23,4 @@ rootProject.name = "Module01Demonstration"
 include(":app")
 include(":Module02Demonstration")
 include(":module04demo01")
+include(":module04demo02")
