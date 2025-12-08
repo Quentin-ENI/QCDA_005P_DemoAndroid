@@ -4,8 +4,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -37,13 +40,33 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GeoLocation(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    Button(
-        onClick = {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:48.039, -1.692"))
-            context.startActivity(intent)
+    Column {
+        Button(
+            onClick = {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:48.039, -1.692"))
+                context.startActivity(intent)
+            }
+        ) {
+            Text(text="GO!")
         }
-    ) {
-        Text(text="GO!")
+        val requestPermissionLauncher = rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:0601020304"))
+                context.startActivity(intent)
+            } else {
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:0601020304"))
+                context.startActivity(intent)
+            }
+        }
+        Button(
+            onClick = {
+                requestPermissionLauncher.launch(android.Manifest.permission.CALL_PHONE)
+            }
+        ) {
+            Text(text="Appeler un ami")
+        }
     }
 }
 

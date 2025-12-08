@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -35,16 +36,18 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun WelcomeScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    Button(
-        onClick = {
-            val intent = Intent(
-                context,
-                TargetActivity::class.java
-            )
-            context.startActivity(intent)
+    Column {
+        Button(
+            onClick = {
+                val intent = Intent(
+                    context,
+                    TargetActivity::class.java
+                )
+                context.startActivity(intent)
+            }
+        ) {
+            Text(text="Aller à l'activité cible")
         }
-    ) {
-        Text(text="Aller à l'activité cible")
     }
 }
 
